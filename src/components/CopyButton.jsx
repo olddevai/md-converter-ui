@@ -1,17 +1,26 @@
 import React from "react";
 import { FaCopy } from "react-icons/fa";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const CopyButton = ({ content, label }) => {
+  // Function to handle content copying
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(content); // Use the Clipboard API
+      alert(`${label} copied to clipboard!`);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+      alert("Failed to copy content. Please try again.");
+    }
+  };
+
   return (
-    <CopyToClipboard text={content}>
-      <button
-        className="flex items-center gap-2 bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition"
-        title={`Copy ${label}`}
-      >
-        <FaCopy /> Copy {label}
-      </button>
-    </CopyToClipboard>
+    <button
+      onClick={handleCopy}
+      className="flex items-center gap-2 bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 transition"
+      title={`Copy ${label}`}
+    >
+      <FaCopy /> Copy {label}
+    </button>
   );
 };
 
